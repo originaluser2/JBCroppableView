@@ -8,23 +8,25 @@
 
 #import <UIKit/UIKit.h>
 
-@interface JBCroppableLayer : UIView
+@interface JBCroppableView : UIView
 
 @property (nonatomic, strong) UIColor *pointColor;
 @property (nonatomic, strong) UIColor *lineColor;
 
 @property (nonatomic, strong) UIView *activePoint;
 
-- (id)initWithImageView:(UIImageView *)imageView;
+- (instancetype)initWithImageView:(UIImageView *)imageView;
 
-- (NSArray *)getPoints;
+- (NSArray<NSValue*> *)getPoints;
+-(UIBezierPath *)getPath;
 - (void)maskImageView:(UIImageView *)image;
 
 
-- (void)addPointsAt:(NSArray *)points;
+- (void)addPointsAt:(NSArray<NSValue*> *)points;
 - (void)addPoints:(int)num;
 
 -(void)findPointAtLocation:(CGPoint)location;
 - (void)moveActivePointToLocation:(CGPoint)locationPoint;
 -(UIImage *)getCroppedImageForView:(UIImageView *)view withTransparentBorders:(BOOL)transparent;
+
 @end

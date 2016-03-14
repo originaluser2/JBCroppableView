@@ -18,7 +18,7 @@
 		423E21E1168372E1001CB06C /* Default-568h@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 423E21E0168372E1001CB06C /* Default-568h@2x.png */; };
 		423E21E4168372E1001CB06C /* ViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 423E21E3168372E1001CB06C /* ViewController.m */; };
 		423E21E7168372E1001CB06C /* ViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 423E21E5168372E1001CB06C /* ViewController.xib */; };
-		423E21EF16837CA9001CB06C /* JBCroppableLayer.m in Sources */ = {isa = PBXBuildFile; fileRef = 423E21EE16837CA9001CB06C /* JBCroppableLayer.m */; };
+		423E21EF16837CA9001CB06C /* JBCroppableView.m in Sources */ = {isa = PBXBuildFile; fileRef = 423E21EE16837CA9001CB06C /* JBCroppableView.m */; };
 		423E21F616847271001CB06C /* IMG_0152.JPG in Resources */ = {isa = PBXBuildFile; fileRef = 423E21F516847271001CB06C /* IMG_0152.JPG */; };
 		5FCB97A6184F1CCA0091667B /* QuartzCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5FCB97A5184F1CCA0091667B /* QuartzCore.framework */; };
 		5FCB97A9184F20C90091667B /* JBCroppableImageView.m in Sources */ = {isa = PBXBuildFile; fileRef = 5FCB97A8184F20C90091667B /* JBCroppableImageView.m */; };
@@ -41,8 +41,8 @@
 		423E21E2168372E1001CB06C /* ViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ViewController.h; sourceTree = "<group>"; };
 		423E21E3168372E1001CB06C /* ViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ViewController.m; sourceTree = "<group>"; };
 		423E21E6168372E1001CB06C /* en */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = en; path = en.lproj/ViewController.xib; sourceTree = "<group>"; };
-		423E21ED16837CA9001CB06C /* JBCroppableLayer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JBCroppableLayer.h; sourceTree = "<group>"; };
-		423E21EE16837CA9001CB06C /* JBCroppableLayer.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = JBCroppableLayer.m; sourceTree = "<group>"; };
+		423E21ED16837CA9001CB06C /* JBCroppableView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JBCroppableView.h; sourceTree = "<group>"; };
+		423E21EE16837CA9001CB06C /* JBCroppableView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = JBCroppableView.m; sourceTree = "<group>"; };
 		423E21F516847271001CB06C /* IMG_0152.JPG */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = IMG_0152.JPG; sourceTree = "<group>"; };
 		5FCB97A5184F1CCA0091667B /* QuartzCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = QuartzCore.framework; path = System/Library/Frameworks/QuartzCore.framework; sourceTree = SDKROOT; };
 		5FCB97A7184F20C90091667B /* JBCroppableImageView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JBCroppableImageView.h; sourceTree = "<group>"; };
@@ -126,8 +126,8 @@
 		423FC0C0168DB73300D17420 /* CroppableView */ = {
 			isa = PBXGroup;
 			children = (
-				423E21ED16837CA9001CB06C /* JBCroppableLayer.h */,
-				423E21EE16837CA9001CB06C /* JBCroppableLayer.m */,
+				423E21ED16837CA9001CB06C /* JBCroppableView.h */,
+				423E21EE16837CA9001CB06C /* JBCroppableView.m */,
 			);
 			name = CroppableView;
 			path = ../JBCroppableView;
@@ -159,7 +159,7 @@
 		423E21BD168372E1001CB06C /* Project object */ = {
 			isa = PBXProject;
 			attributes = {
-				LastUpgradeCheck = 0450;
+				LastUpgradeCheck = 0730;
 				ORGANIZATIONNAME = "Mobile one2one";
 				TargetAttributes = {
 					423E21C5168372E1001CB06C = {
@@ -209,7 +209,7 @@
 				423E21DB168372E1001CB06C /* AppDelegate.m in Sources */,
 				423E21E4168372E1001CB06C /* ViewController.m in Sources */,
 				5FCB97A9184F20C90091667B /* JBCroppableImageView.m in Sources */,
-				423E21EF16837CA9001CB06C /* JBCroppableLayer.m in Sources */,
+				423E21EF16837CA9001CB06C /* JBCroppableView.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -246,6 +246,7 @@
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				COPY_PHASE_STRIP = NO;
+				ENABLE_TESTABILITY = YES;
 				GCC_C_LANGUAGE_STANDARD = gnu99;
 				GCC_DYNAMIC_NO_PIC = NO;
 				GCC_OPTIMIZATION_LEVEL = 0;
@@ -258,6 +259,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				IPHONEOS_DEPLOYMENT_TARGET = 6.0;
+				ONLY_ACTIVE_ARCH = YES;
 				SDKROOT = iphoneos;
 			};
 			name = Debug;
@@ -292,6 +294,7 @@
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "TestCroping/Crop Demo-Prefix.pch";
 				INFOPLIST_FILE = "TestCroping/Crop Demo-Info.plist";
+				PRODUCT_BUNDLE_IDENTIFIER = "mo2o.imaginarium.${PRODUCT_NAME:rfc1034identifier}";
 				PRODUCT_NAME = "Crop Demo";
 				PROVISIONING_PROFILE = "";
 				WRAPPER_EXTENSION = app;
@@ -306,6 +309,7 @@
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "TestCroping/Crop Demo-Prefix.pch";
 				INFOPLIST_FILE = "TestCroping/Crop Demo-Info.plist";
+				PRODUCT_BUNDLE_IDENTIFIER = "mo2o.imaginarium.${PRODUCT_NAME:rfc1034identifier}";
 				PRODUCT_NAME = "Crop Demo";
 				PROVISIONING_PROFILE = "";
 				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "BCCE93CC-4AB8-44FA-BCA0-A3DC4BF66DAA";

@@ -27,7 +27,12 @@
 - (IBAction)cropTapped:(id)sender
 {
     [self.image crop];
-    
+    /*
+    UIImage* i = [self.image getCroppedImageWithTransparentBorders:YES];
+    NSData* d = UIImagePNGRepresentation(i);
+    NSString* dir = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES)[0];
+    [d writeToFile:[NSString stringWithFormat:@"%@/%@", dir, @"foo.png"] atomically:YES];
+    */
 }
 
 - (IBAction)undoTapped:(id)sender

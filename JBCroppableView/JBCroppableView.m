@@ -6,25 +6,24 @@
 //  Copyright (c) 2012 Mobile one2one. All rights reserved.
 //
 
-#import "JBCroppableLayer.h"
-#import <QuartzCore/QuartzCore.h>
+#import "JBCroppableView.h"
 
-#define k_POINT_WIDTH 30
+static CGFloat const kPointWidth = 30;
 
-@interface JBCroppableLayer () {
+@interface JBCroppableView () {
     
     CGPoint lastPoint;
-    UIBezierPath *LastBezierPath;
+    UIBezierPath *lastBezierPath;
     BOOL isContainView;
 }
 
-@property (nonatomic, strong) NSArray *points;
+@property (nonatomic, strong) NSArray<UIView*> *points;
 
 @end
 
-@implementation JBCroppableLayer
+@implementation JBCroppableView
 
-- (id)initWithImageView:(UIImageView *)imageView
+- (instancetype)initWithImageView:(UIImageView *)imageView
 {
     
     CGRect newFrame = CGRectMake(0,0, imageView.frame.size.width, imageView.frame.size.height);
@@ -39,14 +38,14 @@
         [self addPointsAt:nil];
         self.userInteractionEnabled = YES;
         isContainView = YES;
-        LastBezierPath = [UIBezierPath bezierPath];
+        lastBezierPath = [UIBezierPath bezierPath];
     }
     return self;
 }
 
-- (void)addPointsAt:(NSArray *)points
+- (void)addPointsAt:(NSArray<NSValue*> *)points
 {
-    NSMutableArray *tmp = [NSMutableArray array];
+    NSMutableArray<UIView*> *tmp = [NSMutableArray array];
     
     uint i = 0;
     for (NSValue *point in points)
@@ -65,7 +64,7 @@
 {
     if (num <= 0) return;
     
-    NSMutableArray *tmp = [NSMutableArray array];
+    NSMutableArray<UIView*> *tmp = [NSMutableArray array];
     int pointsAdded     = 0;
     int pointsToAdd     = num -1;
     float pointsPerSide = 0.0;
@@ -171,14 +170,14 @@
     self.points = tmp;
 }
 
-- (NSArray *)getPoints
+- (NSArray<NSValue*> *)getPoints
 {
-    NSMutableArray *p = [NSMutableArray array];
+    NSMutableArray<NSValue*> *p = [NSMutableArray array];
     
     for (uint i=0; i<self.points.count; i++)
     {
         UIView *v = [self.points objectAtIndex:i];
-        CGPoint point = CGPointMake(v.frame.origin.x +k_POINT_WIDTH/2, v.frame.origin.y +k_POINT_WIDTH/2);
+        CGPoint point = CGPointMake(v.frame.origin.x +kPointWidth/2, v.frame.origin.y +kPointWidth/2);
         [p addObject:[NSValue valueWithCGPoint:point]];
     }
     
@@ -187,14 +186,14 @@
 
 - (UIView *)getPointView:(int)num at:(CGPoint)point
 {
-    UIView *point1 = [[UIView alloc] initWithFrame:CGRectMake(point.x -k_POINT_WIDTH/2, point.y-k_POINT_WIDTH/2, k_POINT_WIDTH, k_POINT_WIDTH)];
+    UIView *point1 = [[UIView alloc] initWithFrame:CGRectMake(point.x -kPointWidth/2, point.y-kPointWidth/2, kPointWidth, kPointWidth)];
     point1.alpha = 0.8;
     point1.backgroundColor    = self.pointColor;
     point1.layer.borderColor  = self.lineColor.CGColor;
     point1.layer.borderWidth  = 4;
-    point1.layer.cornerRadius = k_POINT_WIDTH/2;
+    point1.layer.cornerRadius = kPointWidth/2;
     
-    UILabel *number = [[UILabel alloc] initWithFrame:CGRectMake(0, 0, k_POINT_WIDTH, k_POINT_WIDTH)];
+    UILabel *number = [[UILabel alloc] initWithFrame:CGRectMake(0, 0, kPointWidth, kPointWidth)];
     number.text = [NSString stringWithFormat:@"%d",num];
     number.textColor = [UIColor whiteColor];
     number.backgroundColor = [UIColor clearColor];
@@ -211,10 +210,8 @@
 
 
 -(CGFloat)distanceBetween:(CGPoint)first And:(CGPoint)last{
-    CGFloat xDist = (last.x - first.x);
-    if(xDist<0) xDist=xDist*-1;
-    CGFloat yDist = (last.y - first.y);
-    if(yDist<0) yDist=yDist*-1;
+    CGFloat xDist = last.x - first.x;
+    CGFloat yDist = last.y - first.y;
     return sqrt((xDist * xDist) + (yDist * yDist));
 }
 
@@ -258,14 +255,14 @@
     
     if (self.activePoint){
         
-        self.activePoint.frame = CGRectMake(locationPoint.x -k_POINT_WIDTH/2, locationPoint.y -k_POINT_WIDTH/2, k_POINT_WIDTH, k_POINT_WIDTH);
+        self.activePoint.frame = CGRectMake(locationPoint.x -kPointWidth/2, locationPoint.y -kPointWidth/2, kPointWidth, kPointWidth);
         [self setNeedsDisplay];
     }
 }
 
--(UIBezierPath *)getPath{
+-(UIBezierPath *)getPath {
     if (self.points.count <= 0) return nil;
-    NSArray *points = [self getPoints];
+    NSArray<NSValue*> *points = [self getPoints];
     
     UIBezierPath *aPath = [UIBezierPath bezierPath];
     
@@ -334,7 +331,7 @@
     
     CGContextDrawImage(context, rect, cgImage);
     
-    unsigned char *data = CGBitmapContextGetData(context);
+    UInt8 *data = CGBitmapContextGetData(context);
     CGContextRelease(context);
     
     //Filter through data and look for non-transparent pixels.
@@ -367,8 +364,8 @@
     CGContextRef context = NULL;
     CGColorSpaceRef colorSpace;
     void *bitmapData;
-    int bitmapByteCount;
-    int bitmapBytesPerRow;
+    size_t bitmapByteCount;
+    size_t bitmapBytesPerRow;
     
     // Get image width, height. We'll use the entire image.
     size_t width = CGImageGetWidth(inImage);
@@ -422,8 +419,6 @@
     // get the current context
     CGContextRef context = UIGraphicsGetCurrentContext();
     
-    CGContextClearRect(context, self.frame);
-    
     const CGFloat *components = CGColorGetComponents(self.lineColor.CGColor);
     
     CGFloat red;
@@ -453,15 +448,15 @@
     CGContextSetLineWidth(context, 2.0);
     
     UIView *point1 = [self.points objectAtIndex:0];
-    CGContextMoveToPoint(context, point1.frame.origin.x +k_POINT_WIDTH/2, point1.frame.origin.y +k_POINT_WIDTH/2);
+    CGContextMoveToPoint(context, point1.frame.origin.x +kPointWidth/2, point1.frame.origin.y +kPointWidth/2);
     
     for (uint i=1; i<self.points.count; i++)
     {
         UIView *point = [self.points objectAtIndex:i];
-        CGContextAddLineToPoint(context, point.frame.origin.x +k_POINT_WIDTH/2, point.frame.origin.y +k_POINT_WIDTH/2);
+        CGContextAddLineToPoint(context, point.frame.origin.x +kPointWidth/2, point.frame.origin.y +kPointWidth/2);
     }
     
-    CGContextAddLineToPoint(context, point1.frame.origin.x +k_POINT_WIDTH/2, point1.frame.origin.y +k_POINT_WIDTH/2);
+    CGContextAddLineToPoint(context, point1.frame.origin.x +kPointWidth/2, point1.frame.origin.y +kPointWidth/2);
     
     // tell the context to draw the stroked line
     CGContextStrokePath(context);

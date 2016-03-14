@@ -7,11 +7,11 @@
 //
 
 #import "JBCroppableImageView.h"
-#import "JBCroppableLayer.h"
+#import "JBCroppableView.h"
 
 
 @implementation JBCroppableImageView{
-    JBCroppableLayer *_pointsView;
+    JBCroppableView *_pointsView;
 }
 
 - (id)initWithCoder:(NSCoder *)aDecoder
@@ -19,7 +19,7 @@
     self = [super initWithCoder:aDecoder];
     if (self) {
         self.userInteractionEnabled = YES;
-        _pointsView = [[JBCroppableLayer alloc] initWithImageView:self];
+        _pointsView = [[JBCroppableView alloc] initWithImageView:self];
         [_pointsView addPoints:4];
         
         [self addSubview:_pointsView];
@@ -110,7 +110,7 @@
     
     [oldPoints insertObject:[NSValue valueWithCGPoint:new] atIndex:indexOfLargestGap];
     [_pointsView removeFromSuperview];
-    _pointsView = [[JBCroppableLayer alloc] initWithImageView:self];
+    _pointsView = [[JBCroppableView alloc] initWithImageView:self];
     [_pointsView addPointsAt:oldPoints];
     [self addSubview:_pointsView];
 }
@@ -149,16 +149,14 @@
     
     [oldPoints removeObjectAtIndex:indexOfSmallestGap];
     [_pointsView removeFromSuperview];
-    _pointsView = [[JBCroppableLayer alloc] initWithImageView:self];
+    _pointsView = [[JBCroppableView alloc] initWithImageView:self];
     [_pointsView addPointsAt:[NSArray arrayWithArray:oldPoints]];
     [self addSubview:_pointsView];
 }
 
 -(CGFloat)distanceBetween:(CGPoint)first And:(CGPoint)last{
     CGFloat xDist = (last.x - first.x);
-    if(xDist<0) xDist=xDist*-1;
     CGFloat yDist = (last.y - first.y);
-    if(yDist<0) yDist=yDist*-1;
     return sqrt((xDist * xDist) + (yDist * yDist));
 }
 -(CGFloat)distanceFrom:(CGPoint)first to:(CGPoint)last throuh:(CGPoint)middle{
